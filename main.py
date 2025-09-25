@@ -1,5 +1,5 @@
 # """
-# projekt_1.py: první projekt do Engeto Online Python Akademie
+# projekt1.py: první projekt do Engeto Online kurzu Tester s Pythonem
 
 # author: Ivana Molnárová
 # email: ivaryd@post.cz
@@ -53,36 +53,37 @@ password = input("password: ")
 if users.get(username) == password:
     print("-" * 40)
     print(f"""Welcome to the app, {username}
-We have 3 texts to be analyzed.
+We have {len(TEXTS)} texts to be analyzed.
 {"-" * 40}""")
-    choice_user = input("Enter a number btw. 1 and 3 to select: ")
+    if TEXTS:
+        text_entry = 1
+    else:
+        text_entry = 0
+    choice_user = input(f"Enter a number btw. {text_entry} and {len(TEXTS)} to select: ")
     print("-" * 40)
     if not choice_user.isdigit():
         print("Zadali jste jiný vstup než číslo.")
-    elif int(choice_user) not in range(1,4):
+    elif int(choice_user) not in range(1,len(TEXTS)+1):
         print("Takové číslo textu není v zadání.")
     elif choice_user:
         index = int(choice_user) - 1
-        print(f"There are {len(TEXTS[index].split())} words in the selected text.")
-        titlecase = [slovo for slovo in TEXTS[index].split() if slovo.istitle()]
+        print(f"There are {len(TEXTS[index].split())} words in the selected text")
+        titlecase = [word for word in TEXTS[index].split() if word.istitle()]
         print(f"There are {len(titlecase)} titlecase words.")
-        uppercase = [slovo for slovo in TEXTS[index].split() if slovo.isupper()]
+        uppercase = [word for word in TEXTS[index].split() if word.isupper()]
         print(f"There are {len(uppercase)} uppercase words.")
-        lowercase = [slovo for slovo in TEXTS[index].split() if slovo.islower()]
+        lowercase = [word for word in TEXTS[index].split() if word.islower()]
         print(f"There are {len(lowercase)} lowercase words.")
-        numeric =  [int(slovo) for slovo in TEXTS[index].split() if slovo.isdigit()]
+        numeric = [int(word) for word in TEXTS[index].split() if word.isdigit()]
         print(f"There are {len(numeric)} numeric strings.")
         print(f"The sum of all the numbers {sum(numeric)}")
         print("-" * 40)
         print(f"""LEN|  OCCURENCES  |NR.
 {"-" * 40}""")
-        vyskyt = []
-        cetn = []
-        for word in TEXTS[0].replace(",","").replace(".","").split():
-            vyskyt.append(len(word))
-        cetnost = dict()
-        for i in range(1, max(vyskyt)+1):
-            cetnost = {str(i): vyskyt.count(i)}
-            print(f"""{i}|""".rjust(4) + f"""{'*' * cetnost.get(str(i))}""".ljust(20) + f"""|{cetnost.get(str(i))}""")
+        occurrence = [len(word) for word in TEXTS[index].replace(",","").replace(".","").split()]
+        frequency = dict()
+        for i in range(1, max(occurrence)+1):
+            frequency = {str(i): occurrence.count(i)}
+            print(f"""{i}|""".rjust(4) + f"""{'*' * frequency.get(str(i))}""".ljust(20) + f"""|{frequency.get(str(i))}""")
 else:
     print("unregistered user, terminating the program..")
